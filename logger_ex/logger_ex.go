@@ -1,7 +1,8 @@
-package snowflake_ex
+package logger_ex
 
 import "github.com/google/wire"
 
 var ProviderSet = wire.NewSet(
-	NewNode,
+	NewStandardLogger,
+	NewStandardLoggerConfig,
 )

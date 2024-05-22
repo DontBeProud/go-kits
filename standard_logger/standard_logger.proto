@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package standard_logger;
+
+import "google/protobuf/duration.proto";
+
+enum LoggerLevel {
+    DebugLevel = 0;
+    InfoLevel = 1;
+    WarnLevel = 2;
+    ErrorLevel = 3;
+    DPanicLevel = 4;
+    PanicLevel = 5;
+    FatalLevel = 6;
+}
+
+// 日志配置的proto
+message LoggerConfig {
+  string rootDir = 1;
+  LoggerLevel logLevel = 2;
+  optional LoggerLevel stackTraceLevel = 3;
+  optional google.protobuf.Duration rotationTime = 4;
+  optional google.protobuf.Duration maxAge = 5;
+}

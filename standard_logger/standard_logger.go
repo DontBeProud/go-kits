@@ -1,4 +1,4 @@
-package logger_ex
+package standard_logger
 
 import "github.com/google/wire"
 

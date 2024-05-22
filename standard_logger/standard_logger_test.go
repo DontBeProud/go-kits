@@ -1,4 +1,4 @@
-package logger_ex
+package standard_logger
 
 import (
 	"go.uber.org/zap/zapcore"
@@ -6,7 +6,7 @@ import (
 )
 
 func TestNewStandardLoggerConfig(t *testing.T) {
-	cfg := NewStandardLoggerConfig(zapcore.InfoLevel, "", nil, nil, nil, nil)
+	cfg := NewStandardLoggerConfig(zapcore.InfoLevel, "", nil, nil, zapcore.DPanicLevel, nil)
 
 	obj, _ := cfg.NewLogger("test", nil)
 	obj.Info("aha")

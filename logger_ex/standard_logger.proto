@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package logger_ex;
+package standard_logger;
 
 import "google/protobuf/duration.proto";
 

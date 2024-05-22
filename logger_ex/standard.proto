@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package logger_ex;
+
+import "google/protobuf/duration.proto";
+
+// 日志配置的proto
+message LoggerConfig {
+  uint32 level = 1;
+  string rootDir = 2;
+  google.protobuf.Duration rotationTime = 3;
+  google.protobuf.Duration maxAge = 4;
+}

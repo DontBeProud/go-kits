@@ -6,6 +6,7 @@ require (
 	github.com/google/wire v0.6.0
 	github.com/lestrrat-go/file-rotatelogs v2.4.0+incompatible
 	go.uber.org/zap v1.27.0
+	google.golang.org/protobuf v1.34.1
 )
 
 require (

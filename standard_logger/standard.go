@@ -14,25 +14,44 @@ import (
 
 // StandardLoggerConfig 标准化日志配置信息
 type StandardLoggerConfig struct {
-	Level           zapcore.Level          // 日志级别
 	RootDir         string                 // 根目录
+	Level           zapcore.Level          // 日志级别
+	StackTraceLevel zapcore.LevelEnabler   // 栈追踪级别
 	RotationTime    *time.Duration         // 日志文件分割周期, 若为空则默认按小时分割
 	MaxAge          *time.Duration         // 日志文件存活周期, 若为空则默认90天
-	StackTraceLevel zapcore.LevelEnabler   // 栈追踪级别
 	EncoderCfg      *zapcore.EncoderConfig // 编码配置, 若为空则使用默认配置
 }
 
 // NewStandardLoggerConfig 创建标准化日志配置
-func NewStandardLoggerConfig(level zapcore.Level, rootDir string, rotationTime *time.Duration,
+func NewStandardLoggerConfig(rootDir string, level zapcore.Level, rotationTime *time.Duration,
 	maxAge *time.Duration, stackTraceLevel zapcore.LevelEnabler, encoderCfg *zapcore.EncoderConfig) *StandardLoggerConfig {
 	return &StandardLoggerConfig{
-		Level:           level,
 		RootDir:         rootDir,
+		Level:           level,
+		StackTraceLevel: stackTraceLevel,
 		RotationTime:    rotationTime,
 		MaxAge:          maxAge,
-		StackTraceLevel: stackTraceLevel,
 		EncoderCfg:      encoderCfg,
 	}
+}
+
+// NewStandardLoggerWithPb 基于PB结构体创建标准化日志配置
+func NewStandardLoggerWithPb(baseCfg *LoggerConfig, encoderCfg *zapcore.EncoderConfig) (*StandardLoggerConfig, error) {
+	if baseCfg == nil {
+		return nil, error_ex.NewErrorExWithFuncNamePrefix(0, "baseCfg == nil")
+	}
+
+	rootDir := baseCfg.RootDir
+	level := zapcore.Level(baseCfg.LogLevel.Number() - 1)
+	rotationTime := parseDurationPb(baseCfg.RotationTime)
+	maxAge := parseDurationPb(baseCfg.MaxAge)
+	var stackTraceLevel zapcore.LevelEnabler
+	if baseCfg.StackTraceLevel != nil {
+		_level := zapcore.Level(zapcore.Level(baseCfg.StackTraceLevel.Number() - 1))
+		stackTraceLevel = &_level
+	}
+
+	return NewStandardLoggerConfig(rootDir, level, rotationTime, maxAge, stackTraceLevel, encoderCfg), nil
 }
 
 // NewStandardLogger 创建标准的logger

@@ -1,6 +1,7 @@
 syntax = "proto3";
 
 package standard_logger;
+option go_package = "github.com/DontBeProud/go-kits/tree/master/standard_logger;standard_logger";
 
 import "google/protobuf/duration.proto";
 

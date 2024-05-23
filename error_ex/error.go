@@ -3,7 +3,7 @@ package error_ex
 import (
 	"errors"
 	"fmt"
-	"go-kits/runtime_ex"
+	"github.com/DontBeProud/go-kits/runtime_ex"
 )
 
 // ErrorEx 封装error

@@ -1,8 +1,8 @@
 package standard_logger
 
 import (
-	"go-kits/error_ex"
-	pb "go-kits/standard_logger/standard_logger_pb"
+	"github.com/DontBeProud/go-kits/error_ex"
+	pb "github.com/DontBeProud/go-kits/standard_logger/standard_logger_pb"
 	"go.uber.org/zap/zapcore"
 )
 

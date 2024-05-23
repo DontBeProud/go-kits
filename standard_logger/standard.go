@@ -2,8 +2,8 @@ package standard_logger
 
 import (
 	"fmt"
+	"github.com/DontBeProud/go-kits/error_ex"
 	rotatelogs "github.com/lestrrat-go/file-rotatelogs"
-	"go-kits/error_ex"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 	"os"

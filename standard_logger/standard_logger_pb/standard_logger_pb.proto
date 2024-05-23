@@ -1,7 +1,7 @@
 syntax = "proto3";
 
-package standard_logger;
-option go_package = "/standard_logger";
+package standard_logger_pb;
+option go_package = "/standard_logger_pb";
 
 import "google/protobuf/duration.proto";
 

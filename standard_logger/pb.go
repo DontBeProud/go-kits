@@ -26,3 +26,14 @@ func NewStandardLoggerConfigWithPb(baseCfg *pb.LoggerConfig, encoderCfg *zapcore
 
 	return NewStandardLoggerConfig(rootDir, dirName, level, rotationTime, maxAge, stackTraceLevel, encoderCfg, options), nil
 }
+
+// NewStandardLoggerWithPb 基于PB结构体创建标准化日志
+func NewStandardLoggerWithPb(baseCfg *pb.LoggerConfig, serviceName string, extraCallerSkip *uint,
+	encoderCfg *zapcore.EncoderConfig, options []zap.Option) (*zap.Logger, error) {
+	cfg, err := NewStandardLoggerConfigWithPb(baseCfg, encoderCfg, options)
+	if err != nil {
+		return nil, err
+	}
+
+	return cfg.NewLogger(serviceName, extraCallerSkip)
+}

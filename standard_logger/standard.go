@@ -23,11 +23,12 @@ type StandardLoggerConfig struct {
 	RotationTime    *time.Duration         // 日志文件分割周期, 若为空则默认按小时分割
 	MaxAge          *time.Duration         // 日志文件存活周期, 若为空则默认90天
 	EncoderCfg      *zapcore.EncoderConfig // 编码配置, 若为空则使用默认配置
+	Options         []zap.Option           // 额外的自定义选项
 }
 
 // NewStandardLoggerConfig 创建标准化日志配置
 func NewStandardLoggerConfig(rootDir string, dirName *string, level zapcore.Level, rotationTime *time.Duration,
-	maxAge *time.Duration, stackTraceLevel zapcore.LevelEnabler, encoderCfg *zapcore.EncoderConfig) *StandardLoggerConfig {
+	maxAge *time.Duration, stackTraceLevel zapcore.LevelEnabler, encoderCfg *zapcore.EncoderConfig, options []zap.Option) *StandardLoggerConfig {
 	return &StandardLoggerConfig{
 		RootDir:         rootDir,
 		Level:           level,
@@ -36,6 +37,7 @@ func NewStandardLoggerConfig(rootDir string, dirName *string, level zapcore.Leve
 		RotationTime:    rotationTime,
 		MaxAge:          maxAge,
 		EncoderCfg:      encoderCfg,
+		Options:         options,
 	}
 }
 
@@ -93,6 +95,9 @@ func (cfg *StandardLoggerConfig) NewLogger(serviceName string, extraCallerSkip *
 	)
 
 	options := make([]zap.Option, 0)
+	if len(cfg.Options) > 0 {
+		options = append(options, cfg.Options...)
+	}
 	if extraCallerSkip != nil {
 		options = append(options, zap.AddCaller(), zap.AddCallerSkip(int(*extraCallerSkip+1)))
 	}

@@ -3,11 +3,12 @@ package standard_logger
 import (
 	"github.com/DontBeProud/go-kits/error_ex"
 	pb "github.com/DontBeProud/go-kits/standard_logger/standard_logger_pb"
+	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 )
 
-// NewStandardLoggerWithPb 基于PB结构体创建标准化日志配置
-func NewStandardLoggerWithPb(baseCfg *pb.LoggerConfig, encoderCfg *zapcore.EncoderConfig) (*StandardLoggerConfig, error) {
+// NewStandardLoggerConfigWithPb 基于PB结构体创建标准化日志配置
+func NewStandardLoggerConfigWithPb(baseCfg *pb.LoggerConfig, encoderCfg *zapcore.EncoderConfig, options []zap.Option) (*StandardLoggerConfig, error) {
 	if baseCfg == nil {
 		return nil, error_ex.NewErrorExWithFuncNamePrefix(0, "baseCfg == nil")
 	}
@@ -23,5 +24,5 @@ func NewStandardLoggerWithPb(baseCfg *pb.LoggerConfig, encoderCfg *zapcore.Encod
 		stackTraceLevel = &_level
 	}
 
-	return NewStandardLoggerConfig(rootDir, dirName, level, rotationTime, maxAge, stackTraceLevel, encoderCfg), nil
+	return NewStandardLoggerConfig(rootDir, dirName, level, rotationTime, maxAge, stackTraceLevel, encoderCfg, options), nil
 }

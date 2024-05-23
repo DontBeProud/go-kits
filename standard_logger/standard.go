@@ -12,23 +12,27 @@ import (
 	"time"
 )
 
+// /RootDir/DirName/所属时间周期/ServiceName_细分时间周期.log
+
 // StandardLoggerConfig 标准化日志配置信息
 type StandardLoggerConfig struct {
 	RootDir         string                 // 根目录
 	Level           zapcore.Level          // 日志级别
 	StackTraceLevel zapcore.LevelEnabler   // 栈追踪级别
+	DirName         *string                // 文件夹名称, 若为空则默认为进程名
 	RotationTime    *time.Duration         // 日志文件分割周期, 若为空则默认按小时分割
 	MaxAge          *time.Duration         // 日志文件存活周期, 若为空则默认90天
 	EncoderCfg      *zapcore.EncoderConfig // 编码配置, 若为空则使用默认配置
 }
 
 // NewStandardLoggerConfig 创建标准化日志配置
-func NewStandardLoggerConfig(rootDir string, level zapcore.Level, rotationTime *time.Duration,
+func NewStandardLoggerConfig(rootDir string, dirName *string, level zapcore.Level, rotationTime *time.Duration,
 	maxAge *time.Duration, stackTraceLevel zapcore.LevelEnabler, encoderCfg *zapcore.EncoderConfig) *StandardLoggerConfig {
 	return &StandardLoggerConfig{
 		RootDir:         rootDir,
 		Level:           level,
 		StackTraceLevel: stackTraceLevel,
+		DirName:         dirName,
 		RotationTime:    rotationTime,
 		MaxAge:          maxAge,
 		EncoderCfg:      encoderCfg,
@@ -46,8 +50,15 @@ func NewStandardLogger(cfg *StandardLoggerConfig, serviceName string, extraCalle
 }
 
 func (cfg *StandardLoggerConfig) NewLogger(serviceName string, extraCallerSkip *uint) (*zap.Logger, error) {
+	logDir := ""
 	procName := strings.TrimRight(filepath.Base(os.Args[0]), ".exe") // 兼容windows
-	logDir := filepath.Join(cfg.RootDir, procName)
+
+	if cfg.DirName != nil {
+		logDir = *cfg.DirName
+	} else {
+		logDir = filepath.Join(cfg.RootDir, procName)
+	}
+
 	if err := os.MkdirAll(logDir, os.ModePerm); err != nil {
 		return nil, err
 	}

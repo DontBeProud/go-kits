@@ -13,6 +13,7 @@ func NewStandardLoggerWithPb(baseCfg *pb.LoggerConfig, encoderCfg *zapcore.Encod
 	}
 
 	rootDir := baseCfg.RootDir
+	dirName := baseCfg.DirName
 	level := zapcore.Level(baseCfg.LogLevel.Number() - 1)
 	rotationTime := parseDurationPb(baseCfg.RotationTime)
 	maxAge := parseDurationPb(baseCfg.MaxAge)
@@ -22,5 +23,5 @@ func NewStandardLoggerWithPb(baseCfg *pb.LoggerConfig, encoderCfg *zapcore.Encod
 		stackTraceLevel = &_level
 	}
 
-	return NewStandardLoggerConfig(rootDir, level, rotationTime, maxAge, stackTraceLevel, encoderCfg), nil
+	return NewStandardLoggerConfig(rootDir, dirName, level, rotationTime, maxAge, stackTraceLevel, encoderCfg), nil
 }

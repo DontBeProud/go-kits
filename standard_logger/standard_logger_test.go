@@ -6,7 +6,7 @@ import (
 )
 
 func TestNewStandardLoggerConfig(t *testing.T) {
-	cfg := NewStandardLoggerConfig("", zapcore.InfoLevel, nil, nil, zapcore.DPanicLevel, nil)
+	cfg := NewStandardLoggerConfig("", nil, zapcore.InfoLevel, nil, nil, zapcore.DPanicLevel, nil)
 
 	obj, _ := cfg.NewLogger("test", nil)
 	obj.Info("aha")

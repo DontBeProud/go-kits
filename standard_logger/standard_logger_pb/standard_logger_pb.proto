@@ -19,7 +19,8 @@ enum LoggerLevel {
 message LoggerConfig {
   string rootDir = 1;
   LoggerLevel logLevel = 2;
-  optional LoggerLevel stackTraceLevel = 3;
-  optional google.protobuf.Duration rotationTime = 4;
-  optional google.protobuf.Duration maxAge = 5;
+  optional string DirName = 3;
+  optional LoggerLevel stackTraceLevel = 4;
+  optional google.protobuf.Duration rotationTime = 5;
+  optional google.protobuf.Duration maxAge = 6;
 }

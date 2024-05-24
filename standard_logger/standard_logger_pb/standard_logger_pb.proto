@@ -24,3 +24,19 @@ message LoggerConfig {
   optional google.protobuf.Duration rotationTime = 5;
   optional google.protobuf.Duration maxAge = 6;
 }
+
+enum GormTracingLevel{
+    Silent = 0;
+    Error = 1;
+    Warn = 2;
+    Info = 3;
+}
+
+// gorm tracing
+message GormTracingConfig {
+  GormTracingLevel tracingLevel = 1;
+  google.protobuf.Duration SlowThreshold = 2;
+  optional bool DontIgnoreRecordNotFoundError = 3;
+  optional bool DontIgnoreKeyDuplicateError = 4;
+  optional bool FilterParams = 5;
+}

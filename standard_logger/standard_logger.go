@@ -8,5 +8,5 @@ var ProviderSet = wire.NewSet(
 	NewStandardLoggerConfigWithPb,
 	NewKratosLogger,
 	NewStandardLoggerWithPb,
-	NewGormLogger,
+	NewGormTracingLogger,
 )

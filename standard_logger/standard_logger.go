@@ -9,4 +9,6 @@ var ProviderSet = wire.NewSet(
 	NewKratosLogger,
 	NewStandardLoggerWithPb,
 	NewGormTracingLogger,
+	NewGormTracingLoggerWithPb,
+	NewGormTracingLoggerWithPbEx,
 )

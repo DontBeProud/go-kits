@@ -21,8 +21,8 @@ type GormLoggerConfig struct {
 	FilterParams                  bool            // hide params when print sql
 }
 
-// NewStandardGormLogger 新建标准的gorm日志对象
-func NewStandardGormLogger(loggerCore *zap.Logger, cfg *GormLoggerConfig) (logger.Interface, error_ex.ErrorEx) {
+// NewGormLogger 新建标准的gorm日志对象
+func NewGormLogger(loggerCore *zap.Logger, cfg *GormLoggerConfig) (logger.Interface, error_ex.ErrorEx) {
 	const callerSkip = 2
 	if loggerCore == nil {
 		return nil, error_ex.NewErrorEx("invalid loggerCore")

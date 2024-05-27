@@ -3,7 +3,6 @@ package standard_logger
 import (
 	"context"
 	"fmt"
-	"github.com/DontBeProud/go-kits/error_ex"
 	"go.uber.org/zap"
 	"runtime"
 	"runtime/debug"
@@ -21,7 +20,7 @@ type GlobalMonitorLogger interface {
 }
 
 // NewMonitorLogger 创建标准化监控日志对象
-func NewMonitorLogger(cfg *StandardLoggerConfig) (GlobalMonitorLogger, error_ex.ErrorEx) {
+func NewMonitorLogger(cfg *StandardLoggerConfig) (GlobalMonitorLogger, error) {
 	const serviceName = "global_monitor"
 	loggerObj, err := NewStandardLogger(cfg, serviceName, nil)
 	if err != nil {

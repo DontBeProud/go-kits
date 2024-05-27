@@ -20,8 +20,7 @@ type GlobalMonitorLogger interface {
 }
 
 // NewMonitorLogger 创建标准化监控日志对象
-func NewMonitorLogger(cfg *StandardLoggerConfig) (GlobalMonitorLogger, error) {
-	const serviceName = "global_monitor"
+func NewMonitorLogger(cfg *StandardLoggerConfig, serviceName string) (GlobalMonitorLogger, error) {
 	loggerObj, err := NewStandardLogger(cfg, serviceName, nil)
 	if err != nil {
 		return nil, err

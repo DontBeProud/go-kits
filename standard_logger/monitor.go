@@ -47,10 +47,10 @@ func (l *monitorLogger) ExecuteMonitorTask(ctx context.Context, interval time.Du
 		}
 	}()
 
-	memStatus := &runtime.MemStats{}
+	memStatus := runtime.MemStats{}
 	tick := time.NewTicker(interval)
 	for {
-		runtime.ReadMemStats(memStatus)
+		runtime.ReadMemStats(&memStatus)
 
 		l.Info(fmt.Sprintf("current Goroutine:%-6d Heap:%.2fMb Stack:%.2fMb",
 			runtime.NumGoroutine(),
@@ -59,7 +59,7 @@ func (l *monitorLogger) ExecuteMonitorTask(ctx context.Context, interval time.Du
 		))
 
 		if callback != nil {
-			callback(memStatus, l.Logger)
+			callback(&memStatus, l.Logger)
 		}
 
 		select {

@@ -47,9 +47,9 @@ func (l *globalMonitorLogger) ExecuteGlobalMonitorTask(ctx context.Context, inte
 		}
 	}()
 
+	memStatus := &runtime.MemStats{}
 	tick := time.NewTicker(interval)
 	for {
-		memStatus := &runtime.MemStats{}
 		runtime.ReadMemStats(memStatus)
 
 		l.Info(fmt.Sprintf("current Goroutine:%-6d Heap:%.2fMb Stack:%.2fMb",

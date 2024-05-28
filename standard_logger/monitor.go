@@ -9,38 +9,38 @@ import (
 	"time"
 )
 
-// GlobalMonitorLogger 全局监控日志对象
-type GlobalMonitorLogger interface {
-	// ExecuteGlobalMonitorTask 执行全局监控任务
+// MonitorLogger 监控日志对象
+type MonitorLogger interface {
+	// ExecuteMonitorTask 执行监控任务
 	// interval: 轮询间隔
 	// callback: 自定义回调函数
-	ExecuteGlobalMonitorTask(ctx context.Context, interval time.Duration, callback func(*runtime.MemStats, *zap.Logger))
+	ExecuteMonitorTask(ctx context.Context, interval time.Duration, callback func(*runtime.MemStats, *zap.Logger))
 	// GetLogger 获取底层日志对象
 	GetLogger() *zap.Logger
 }
 
 // NewMonitorLogger 创建标准化监控日志对象
-func NewMonitorLogger(cfg *StandardLoggerConfig, serviceName string) (GlobalMonitorLogger, error) {
+func NewMonitorLogger(cfg *StandardLoggerConfig, serviceName string) (MonitorLogger, error) {
 	loggerObj, err := NewStandardLogger(cfg, serviceName, nil)
 	if err != nil {
 		return nil, err
 	}
-	return &globalMonitorLogger{Logger: loggerObj}, nil
+	return &monitorLogger{Logger: loggerObj}, nil
 }
 
-// globalMonitorLogger 标准化监控日志对象
-type globalMonitorLogger struct {
+// monitorLogger 标准化监控日志对象
+type monitorLogger struct {
 	*zap.Logger
 }
 
-func (l *globalMonitorLogger) GetLogger() *zap.Logger {
+func (l *monitorLogger) GetLogger() *zap.Logger {
 	return l.Logger
 }
 
-// ExecuteGlobalMonitorTask 执行全局监控任务
+// ExecuteMonitorTask 执行监控任务
 // interval: 轮询间隔
 // callback: 自定义回调函数
-func (l *globalMonitorLogger) ExecuteGlobalMonitorTask(ctx context.Context, interval time.Duration, callback func(*runtime.MemStats, *zap.Logger)) {
+func (l *monitorLogger) ExecuteMonitorTask(ctx context.Context, interval time.Duration, callback func(*runtime.MemStats, *zap.Logger)) {
 	defer func() {
 		if err := recover(); err != nil {
 			l.Error(fmt.Sprintf("monitor err:%v;stack:%v", err, string(debug.Stack())))
@@ -66,6 +66,7 @@ func (l *globalMonitorLogger) ExecuteGlobalMonitorTask(ctx context.Context, inte
 		case <-ctx.Done():
 			break
 		case <-tick.C:
+			continue
 		}
 	}
 }

@@ -2,6 +2,7 @@ package sharding
 
 import (
 	"github.com/DontBeProud/go-kits/cron_ex"
+	"github.com/DontBeProud/go-kits/sharding/sharding_pb"
 	"time"
 )
 
@@ -43,8 +44,12 @@ type SubRuleGeneratorInterface interface {
 	GenerateSubMutableShardingRule(prefixRuleList []FnStringModifyRule, suffixRuleList []FnStringModifyRule) MutableSubRule
 	// GenerateSubShardingRuleWithTime 生成基于时间的子分割规则
 	GenerateSubShardingRuleWithTime(cfg *RuleWithTimeConfig) (SubRuleWithTime, error)
+	// GenerateSubShardingRuleWithTimeWithPb 生成基于时间的子分割规则(通过pb)
+	GenerateSubShardingRuleWithTimeWithPb(cfg *sharding_pb.ShardingWithTimeConfig) (SubRuleWithTime, error)
 	// GenerateSubShardingRuleWithGroup 生成基于分组的子分割规则
 	GenerateSubShardingRuleWithGroup(cfg *RuleWithGroupConfig) (SubRuleWithGroup, error)
+	// GenerateSubShardingRuleWithGroupWithPb 生成基于分组的子分割规则(通过pb)
+	GenerateSubShardingRuleWithGroupWithPb(cfg *sharding_pb.RuleWithGroupConfig) (SubRuleWithGroup, error)
 }
 
 // SubRule 分割规则(接口)

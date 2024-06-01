@@ -19,10 +19,10 @@ enum LoggerLevel {
 message LoggerConfig {
   string rootDir = 1;
   LoggerLevel logLevel = 2;
-  optional string DirName = 3;
-  optional LoggerLevel stackTraceLevel = 4;
-  optional google.protobuf.Duration rotationTime = 5;
-  optional google.protobuf.Duration maxAge = 6;
+  string DirName = 3;
+  LoggerLevel stackTraceLevel = 4;
+  google.protobuf.Duration rotationTime = 5;
+  google.protobuf.Duration maxAge = 6;
 }
 
 enum GormTracingLevel{
@@ -36,7 +36,7 @@ enum GormTracingLevel{
 message GormTracingConfig {
   GormTracingLevel tracingLevel = 1;
   google.protobuf.Duration SlowThreshold = 2;
-  optional bool DontIgnoreRecordNotFoundError = 3;
-  optional bool DontIgnoreKeyDuplicateError = 4;
-  optional bool FilterParams = 5;
+  bool DontIgnoreRecordNotFoundError = 3;
+  bool DontIgnoreKeyDuplicateError = 4;
+  bool FilterParams = 5;
 }

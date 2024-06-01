@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package sharding_pb;
+option go_package = "github.com/DontBeProud/go-kits/sharding/sharding_pb;sharding_pb";
+
+// RuleWithGroupConfig 基于分组的分割规则配置
+message RuleWithGroupConfig {
+	uint64 groupSize = 1; 						// 分组数量(实际使用的过程中，建议使用2的N次方)
+	string splitCharacter = 2; 				// 分割字符 raw + SplitCharacter + group
+	bool prefixMode = 3;   						// 分组信息是否置于命名前缀(默认位false，即采用raw - group的格式)
+	bool indexIncreaseFromZero = 4;   // 分组序号是否从0增长. true: 0.1.2.3....  false: 1.2.3.4....
+}

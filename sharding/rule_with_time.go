@@ -12,7 +12,7 @@ type TimeLevel uint
 
 const (
 	minTimeLevel       TimeLevel = TimeLevelDisabled
-	TimeLevelDisabled  TimeLevel = 0  // 不适用基于时间分割的规则
+	TimeLevelDisabled  TimeLevel = 0  // 不使用基于时间分割的规则
 	TimeLevelHour      TimeLevel = 1  // 小时
 	TimeLevelHalfDay   TimeLevel = 2  // 半天(每12个小时分割一次)
 	TimeLevelDay       TimeLevel = 3  // 天

@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package sharding_pb;
+option go_package = "github.com/DontBeProud/go-kits/sharding/sharding_pb;sharding_pb";
+
+// 根命名规则
+message ShardingRootConfig {
+  string constPrefix = 1;  // 固定前缀
+  string constSuffix = 2;  // 固定后缀
+}

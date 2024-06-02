@@ -58,6 +58,23 @@ func (g *ErrorGroupEx) Wait() error {
 	return g.err
 }
 
+// BatchGo 批量执行
+func (g *ErrorGroupEx) BatchGo(fnList []func() error) error {
+	if len(fnList) == 0 {
+		return nil
+	}
+
+	for _, fn := range fnList {
+		if err := fn(); err != nil {
+			// 出错则不再执行新的任务
+			g.handleError(err)
+			break
+		}
+	}
+
+	return g.Wait()
+}
+
 // Go calls the given function in a new goroutine.
 // It blocks until the new goroutine can be added without the number of
 // active goroutines in the group exceeding the configured limit.
@@ -75,12 +92,7 @@ func (g *ErrorGroupEx) Go(f func() error) error {
 	fn := func() {
 		defer g.done()
 		if err := f(); err != nil {
-			g.errOnce.Do(func() {
-				g.err = err
-				if g.cancel != nil {
-					g.cancel(g.err)
-				}
-			})
+			g.handleError(err)
 		}
 	}
 
@@ -112,12 +124,7 @@ func (g *ErrorGroupEx) TryGo(f func() error) (bool, error) {
 	fn := func() {
 		defer g.done()
 		if err := f(); err != nil {
-			g.errOnce.Do(func() {
-				g.err = err
-				if g.cancel != nil {
-					g.cancel(g.err)
-				}
-			})
+			g.handleError(err)
 		}
 	}
 
@@ -146,4 +153,13 @@ func (g *ErrorGroupEx) SetLimit(n int) {
 		panic(fmt.Errorf("errgroup: modify limit while %v goroutines in the group are still active", len(g.sem)))
 	}
 	g.sem = make(chan token, n)
+}
+
+func (g *ErrorGroupEx) handleError(err error) {
+	g.errOnce.Do(func() {
+		g.err = err
+		if g.cancel != nil {
+			g.cancel(g.err)
+		}
+	})
 }

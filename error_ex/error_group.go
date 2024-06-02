@@ -32,14 +32,14 @@ func (g *ErrorGroupEx) done() {
 	g.wg.Done()
 }
 
-// WithContext returns a new ErrorGroupEx and an associated Context derived from ctx.
+// NewErrorGroupWithContext returns a new ErrorGroupEx and an associated Context derived from ctx.
 //
 // The derived Context is canceled the first time a function passed to Go
 // returns a non-nil error or the first time Wait returns, whichever occurs
 // first.
 //
 // 如果传入有效的pool，则EG使用的协程从协程池中获取
-func WithContext(ctx context.Context, pool *ants.Pool) (*ErrorGroupEx, context.Context) {
+func NewErrorGroupWithContext(ctx context.Context, pool *ants.Pool) (*ErrorGroupEx, context.Context) {
 	ctx, cancel := withCancelCause(ctx)
 	return &ErrorGroupEx{cancel: cancel, pool: pool}, ctx
 }

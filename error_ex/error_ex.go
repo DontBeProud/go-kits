@@ -9,4 +9,5 @@ var ProviderSet = wire.NewSet(
 	NewErrorExWithFuncNamePrefix,
 	NewErrorExWithPrefix,
 	NewErrorExWithSuffix,
+	NewErrorGroupWithContext,
 )

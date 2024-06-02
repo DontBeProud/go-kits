@@ -6,37 +6,37 @@ option go_package = "github.com/DontBeProud/go-kits/standard_logger/standard_log
 import "google/protobuf/duration.proto";
 
 enum LoggerLevel {
-    DebugLevel = 0;
-    InfoLevel = 1;
-    WarnLevel = 2;
-    ErrorLevel = 3;
-    DPanicLevel = 4;
-    PanicLevel = 5;
-    FatalLevel = 6;
+  DebugLevel = 0;
+  InfoLevel = 1;
+  WarnLevel = 2;
+  ErrorLevel = 3;
+  DPanicLevel = 4;
+  PanicLevel = 5;
+  FatalLevel = 6;
 }
 
 // 日志配置的proto
 message LoggerConfig {
   string rootDir = 1;
   LoggerLevel logLevel = 2;
-  string DirName = 3;
-  LoggerLevel stackTraceLevel = 4;
-  google.protobuf.Duration rotationTime = 5;
-  google.protobuf.Duration maxAge = 6;
+  optional string DirName = 3;
+  optional LoggerLevel stackTraceLevel = 4;
+  optional google.protobuf.Duration rotationTime = 5;
+  optional google.protobuf.Duration maxAge = 6;
 }
 
 enum GormTracingLevel{
-    Silent = 0;
-    Error = 1;
-    Warn = 2;
-    Info = 3;
+  Silent = 0;
+  Error = 1;
+  Warn = 2;
+  Info = 3;
 }
 
 // gorm tracing
 message GormTracingConfig {
   GormTracingLevel tracingLevel = 1;
   google.protobuf.Duration SlowThreshold = 2;
-  bool DontIgnoreRecordNotFoundError = 3;
-  bool DontIgnoreKeyDuplicateError = 4;
-  bool FilterParams = 5;
+  optional bool DontIgnoreRecordNotFoundError = 3;
+  optional bool DontIgnoreKeyDuplicateError = 4;
+  optional bool FilterParams = 5;
 }

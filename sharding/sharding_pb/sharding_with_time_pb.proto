@@ -6,23 +6,23 @@ option go_package = "github.com/DontBeProud/go-kits/sharding/sharding_pb;shardin
 import "google/protobuf/timestamp.proto";
 
 // 时间分割(分库/分表)策略的分割级别
-enum ShardingWithTimeLevel {
-    TimeLevelDisabled= 0;   // 不使用基于时间分割的规则
-    TimeLevelHour = 1;      // 小时
-    TimeLevelHalfDay = 2;   // 半天(每12个小时分割一次)
-    TimeLevelDay = 3;       // 天
-    TimeLevelWeek = 4;      // 周(每周一为分割日)
-    TimeLevelHalfMonth = 5; // 半月(每个月的1号和16号位分割月)
-    TimeLevelMonth = 6;     // 月
-    TimeLevelTwoMonth = 7;  // 2月
-    TimeLevelQuarter = 8;   // 季度
-    TimeLevelHalfYear = 9;  // 半年
-    TimeLevelYear = 10;     // 年
+enum ShardingTimeLevel {
+    Disabled= 0;   // 不使用基于时间分割的规则
+    Hour = 1;      // 小时
+    HalfDay = 2;   // 半天(每12个小时分割一次)
+    Day = 3;       // 天
+    Week = 4;      // 周(每周一为分割日)
+    HalfMonth = 5; // 半月(每个月的1号和16号位分割月)
+    Month = 6;     // 月
+    TwoMonth = 7;  // 2月
+    Quarter = 8;   // 季度
+    HalfYear = 9;  // 半年
+    Year = 10;     // 年
 }
 
 // 时间分割(分库/分表)策略配置的proto
 message ShardingWithTimeConfig {
-    ShardingWithTimeLevel timeLevel = 1;                // 时间分割级别
+    ShardingTimeLevel timeLevel = 1;                    // 时间分割级别
     string splitCharacter = 2;                          // 分割字符
     string timeSplitCharacter = 3;                      // 各时间成员之间的分割字符
     google.protobuf.Timestamp earliestValidTime = 4;    // 最早的有效时间(分库分表的业务场景一般需要设置一个最早有效时间, 否则在查询等场景中可能出现表未创建的情况)

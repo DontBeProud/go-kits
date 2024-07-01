@@ -259,29 +259,43 @@ func (r *shardingRuleWithTime) nextTimeNode(raw time.Time) time.Time {
 	case TimeLevelDisabled:
 		break
 	case TimeLevelHour:
-		t = t.Add(1 * time.Hour)
+		_t := t.Add(1 * time.Hour)
+		t = time.Date(_t.Year(), _t.Month(), _t.Day(), _t.Hour(), 0, 0, 0, t.Location())
 	case TimeLevelHalfDay:
-		t = t.Add(12 * time.Hour)
+		_t := t.Add(12 * time.Hour)
+		t = time.Date(_t.Year(), _t.Month(), _t.Day(), _t.Hour(), 0, 0, 0, t.Location())
 	case TimeLevelDay:
-		t = t.AddDate(0, 0, 1)
+		_t := t.AddDate(0, 0, 1)
+		t = time.Date(_t.Year(), _t.Month(), _t.Day(), 0, 0, 0, 0, t.Location())
 	case TimeLevelWeek:
-		t = t.AddDate(0, 0, 7)
+		_t := t.AddDate(0, 0, 7)
+		t = time.Date(_t.Year(), _t.Month(), _t.Day(), 0, 0, 0, 0, t.Location())
 	case TimeLevelHalfMonth:
 		if t.Day() > 15 {
-			t = time.Date(t.Year(), t.Month()+1, 1, t.Hour(), t.Minute(), t.Second(), t.Nanosecond(), t.Location()) // 次月1号
+			t = time.Date(t.Year(), t.Month()+1, 1, 0, 0, 0, 0, t.Location()) // 次月1号
 		} else {
-			t = time.Date(t.Year(), t.Month(), 16, t.Hour(), t.Minute(), t.Second(), t.Nanosecond(), t.Location()) // 当月16号
+			t = time.Date(t.Year(), t.Month(), 16, 0, 0, 0, 0, t.Location()) // 当月16号
 		}
 	case TimeLevelMonth:
-		t = t.AddDate(0, 1, 0)
+		_t := t.AddDate(0, 1, 0)
+		t = time.Date(_t.Year(), _t.Month(), 1, 0, 0, 0, 0, t.Location())
 	case TimeLevelTwoMonth:
-		t = t.AddDate(0, 2, 0)
+		_t := t.AddDate(0, 2, 0)
+		t = time.Date(_t.Year(), _t.Month(), 1, 0, 0, 0, 0, t.Location())
 	case TimeLevelQuarter:
-		t = t.AddDate(0, 3, 0)
+		if t.Month() > 9 {
+			t = time.Date(t.Year()+1, 1, 1, 0, 0, 0, 0, t.Location()) // 次月1月
+		} else {
+			t = time.Date(t.Year(), ((t.Month()-1)/3)*3+4, 1, 0, 0, 0, 0, t.Location()) // 下一季度
+		}
 	case TimeLevelHalfYear:
-		t = t.AddDate(0, 6, 0)
+		if t.Month() > 6 {
+			t = time.Date(t.Year()+1, 1, 1, 0, 0, 0, 0, t.Location()) // 次月1月
+		} else {
+			t = time.Date(t.Year(), 7, 1, 0, 0, 0, 0, t.Location()) // 本年7月
+		}
 	case TimeLevelYear:
-		t = t.AddDate(1, 0, 0)
+		t = time.Date(t.Year()+1, 1, 1, 0, 0, 0, 0, t.Location())
 	default:
 		break
 	}
